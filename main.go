@@ -3,15 +3,22 @@ package main
 import (
 	"fmt"
 	"os"
-	"os/exec"
-	"strings"
+	"runtime"
 )
 
 func main() {
-	// 获取 Finder 当前路径
-	getPath()
-	exitIterm2App()
-
+	path := getPath()
+	// 判断 操作系统
+	switch os := runtime.GOOS; os {
+	case "windows":
+		windowsOpen(path)
+	case "darwin":
+		macOSOpen(path)
+	case "linux":
+		linuxOpen(path)
+	default:
+		fmt.Println("其他操作系统")
+	}
 }
 
 func getPath() string {
@@ -22,23 +29,4 @@ func getPath() string {
 	}
 	fmt.Println("当前路径:", currentDir)
 	return currentDir
-}
-
-func exitIterm2App() bool {
-	appBundleID := "com.googlecode.iterm2"
-	cmd := exec.Command("mdfind", fmt.Sprintf("kMDItemCFBundleIdentifier == '%s'", appBundleID))
-	output, err := cmd.Output()
-
-	if err != nil {
-		fmt.Printf("未安装应用程序\n")
-	} else {
-		if len(strings.TrimSpace(string(output))) > 0 {
-			fmt.Printf("已安装应用程序\n")
-			return true
-		} else {
-			fmt.Printf("未安装应用程序\n")
-		}
-	}
-	return false
-
 }
