@@ -9,7 +9,7 @@ import (
 func main() {
 	path := getPath()
 	// 判断 操作系统
-	switch os := runtime.GOOS; os {
+	switch currentOS := runtime.GOOS; currentOS {
 	case "windows":
 		windowsOpen(path)
 	case "darwin":
