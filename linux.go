@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/electricbubble/go-toast"
+)
 
 func linuxOpen(path string) {
-	fmt.Print("linux:", path)
+	_ = toast.Push("当前操作系统暂未支持", toast.WithTitle("go2terminal"))
 }
